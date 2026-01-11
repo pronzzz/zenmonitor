@@ -1,0 +1,24 @@
+global:
+  check_interval: 60s
+  history_days: 90
+
+notifications:
+  - type: telegram
+    token: "YOUR_BOT_TOKEN_HERE"
+    chat_id: "YOUR_CHAT_ID_HERE"
+    # enabled: false
+
+monitors:
+  - name: "Google Public DNS"
+    type: "icmp"
+    host: "8.8.8.8"
+    
+  - name: "Example API"
+    url: "https://api.example.com/health"
+    method: "GET"
+    expect_status: 200
+
+  - name: "Local Redis"
+    type: "tcp"
+    host: "localhost"
+    port: 6379

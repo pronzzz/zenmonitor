@@ -1,0 +1,236 @@
+:root {
+    /* Premium Dark Palette */
+    --bg-color: #212529;
+    /* Deep dark grey */
+    --card-bg: #212529;
+    --text-main: #e9ecef;
+    --text-muted: #adb5bd;
+
+    --success: #2ec4b6;
+    /* Teal-ish green */
+    --danger: #e71d36;
+    /* Vibrant red */
+    --warning: #ff9f1c;
+    --pending: #343a40;
+
+    /* Neumorphism Shadows */
+    --shadow-light: #2c3238;
+    --shadow-dark: #16191c;
+
+    --card-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+    --inset-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* Suggested modern font */
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+}
+
+header {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(45deg, #FF9F1C, #E71D36);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.monitor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.monitor-card {
+    background-color: var(--card-bg);
+    border-radius: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease;
+    animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+/* Stagger animations for list items would require JS or nth-child CSS */
+.monitor-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.monitor-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.monitor-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.monitor-card:hover {
+    transform: translateY(-2px);
+}
+
+.monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monitor-name {
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.monitor-status {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: var(--inset-shadow);
+    /* Inset for status pill */
+}
+
+.status-up {
+    color: var(--success);
+    text-shadow: 0 0 5px rgba(46, 196, 182, 0.4);
+}
+
+.status-down {
+    color: var(--danger);
+    text-shadow: 0 0 5px rgba(231, 29, 54, 0.4);
+}
+
+.dot-matrix {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    /* Optional: inset container for dots */
+    /* background: #1f2327; */
+    /* box-shadow: var(--inset-shadow); */
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--pending);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
+}
+
+.dot:hover {
+    transform: scale(1.4);
+    z-index: 10;
+}
+
+.dot.up {
+    background-color: var(--success);
+    box-shadow: 0 0 5px var(--success);
+    /* Internal glow */
+}
+
+.dot.down {
+    background-color: var(--danger);
+    box-shadow: 0 0 5px var(--danger);
+}
+
+/* Tooltip */
+.dot::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 160%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 20;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dot:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Animations from Animista */
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-1000px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-bottom {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .monitor-card {
+        padding: 1.5rem;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        gap: 4px;
+    }
+}

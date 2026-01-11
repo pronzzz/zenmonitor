@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenMonitor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZenMonitor</h1>
+            <div id="last-updated" style="font-size: 0.8rem; color: var(--text-muted);">
+                Updated: {{ .Now.Format "15:04:05" }}
+            </div>
+        </header>
+
+        <!-- 
+            The monitor list container. 
+            We use hx-get="/" to refresh the whole page (or just this div if we handle headers) 
+            every 60s. 
+            Ideally, we'd have a specific partial endpoint, but for simplicity, 
+            we can rely on hx-select if we reload the whole page content, 
+            or better: server handles partial rendering.
+            Let's assume server will support partials or we just reload body.
+        -->
+        <div class="monitor-list" hx-get="/" hx-trigger="every 60s" hx-select=".monitor-list" hx-swap="outerHTML">
+            {{ range .Monitors }}
+            <div class="monitor-card">
+                <div class="monitor-header">
+                    <div class="monitor-name">{{ .Name }}</div>
+                    <div class="monitor-status {{ if .IsUp }}status-up{{ else }}status-down{{ end }}">
+                        {{ if .IsUp }}Operational{{ else }}Outage{{ end }}
+                    </div>
+                </div>
+                <div class="dot-matrix">
+                    {{ range .History }}
+                    <div class="dot {{ if .Status }}up{{ else }}down{{ end }}" 
+                         data-title="{{ .Timestamp.Format "Jan 02 15:04" }} - {{ if .Status }}OK ({{ .Latency }}){{ else }}ERR: {{ .Error }}{{ end }}">
+                    </div>
+                    {{ end }}
+                    <!-- Fill remaining dots if needed? No, purely history based. -->
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</body>
+</html>

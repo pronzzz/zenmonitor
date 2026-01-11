@@ -8,7 +8,7 @@
 
 The entire application state is defined in a single `monitors.yaml` file, making it instantly deployable via Ansible, Terraform, or simple Git cloning. The interface is purely visual: a premium Neumorphic grid of green/red dots representing the last 90 days.
 
-![Dashboard Screenshot](screenshot.mov)
+![Dashboard Demo](demo.gif)
 
 ## ✨ Features
 
